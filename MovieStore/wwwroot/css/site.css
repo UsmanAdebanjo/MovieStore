@@ -1,0 +1,33 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+table,tr{
+    width:100%;
+}
+#dar {
+    margin-top:190px;
+    background-color: rgba(0,0,0,0);
+
+}
+.btnCustomerclose {
+    color: white;
+    margin-right: 20px;
+    color: white;
+    margin-right: 20px;
+}
+
