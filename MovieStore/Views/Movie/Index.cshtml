@@ -1,0 +1,174 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+@{
+    Layout = "_NewLayout";
+}
+*@
+@{
+    Layout = "_NewLayout";
+}
+@model MovieStore.ViewModels.MovieViewModel
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#movieFormModal">
+Create
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="movieFormModal" tabindex="-1" aria-labelledby="movieFormModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="movieFormModal">Create New Movie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="">
+           <form>
+        <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Name:
+            </label>
+            <div class="col-sm-6">
+                 <input id="name" type="text" class="form-control"/>
+            </div>
+           
+        </div>
+@*         <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Date Added:
+            </label>
+            <div class="col-sm-6">
+                 <input id="dateAdded" type="date" class="form-control"/>
+            </div>
+        </div>
+*@
+       <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Date Released:
+            </label>
+            <div class="col-sm-6">
+                 <input id="dateReleased" type="date" class="form-control" />
+            </div>
+        </div>
+     <div class="form-group row  mb-3">
+        @Html.LabelFor(m => m.GenreId, new{@class="form-label col-sm-4"})
+        <div class="col-sm-6">
+        @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre", new { @class = "form-control", id="genre" })
+        </div>
+    </div>
+       <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Number In Stock:
+            </label>
+            <div class="col-sm-6">
+                 <input id="numberInStock" type="number" class="form-control"/>
+            </div>
+        </div>
+         <div class="m-5">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="btnn" class="btn btn-primary"data-bs-dismiss="modal">Save </button>
+      </div>
+    </form>
+      </div>
+@*      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save </button>
+      </div>*@
+    </div>
+  </div>
+</div>
+
+<div>
+    <table id="movies" class="hover cell-border compact">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>GenreId</th>
+                <th>DateAdded</th>
+            </tr>
+        </thead>
+
+@*        <tbody>
+        </tbody>*@
+    </table>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        var movie={};
+        var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
+  $(document).ready(function(){
+
+              var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
+var _urlMovie='Movie/Save';
+
+      $("#btnn").click(function(e){
+            movie={
+            Name:$("#name").val().replace(/[^a-zA-Z0-9 ]/g, ''),
+            GenreId:$("#genre").val()==null?"0":$("#genre").val(),
+            DateAdded:$("#dateAdded").val(),
+            DateReleased:$("#dateReleased").val(),
+            NumberInStock:$("#numberInStock").val().replace(/[^a-zA-Z0-9 ]/g, '')
+        }
+        console.log("Movie :"+movie)
+        SendToController(_urlMovie,movie);
+        ClearControls();
+      }) 
+
+
+        $('#movies').dataTable( {
+        "ajax": {
+            "url": "Movie/GetMovies",
+            dataSrc:""
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "genreId"},
+            { "data": "dateAdded"}
+        ]
+    } );
+
+
+ function SendToController(_url,_data){
+            $.ajax({
+            url:_url,
+            type:'POST',
+            dataType:'JSON',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            data:_data,
+            success: function(){
+                toastr.success("Successfully added");
+                $('#movies').DataTable().ajax.reload(null, false);
+            },
+            error: function(){
+                toastr.error("Error something went wrong")
+            }
+        })
+     }
+
+ function ClearControls(){
+            $("#name").val(''),
+            $("#dateAdded").val(''),
+            $("#genre").val(''),
+            $("#dateReleased").val(''),
+            $("#numberInStock").val('')
+        }
+
+        });
+    </script>
+}

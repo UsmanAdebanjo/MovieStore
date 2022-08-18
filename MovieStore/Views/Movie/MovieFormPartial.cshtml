@@ -1,0 +1,63 @@
+﻿@model MovieStore.ViewModels.MovieViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div>
+    MOVIE FORM
+   <form>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                Name:
+            </label>
+            <div class="col-sm-10">
+                 <input id="name" type="text" class="form-control-plaintext"/>
+            </div>
+           
+        </div>
+         <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                Date Added:
+            </label>
+            <div class="col-sm-10">
+                 <input id="dateAdded" type="date" class="form-control-plaintext"/>
+            </div>
+        </div>
+
+       <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                Date Released:
+            </label>
+            <div class="col-sm-10">
+                 <input id="dateReleased" type="date" class="form-control-plaintext"/>
+            </div>
+        </div>
+@*     <div>
+        @Html.LabelFor(m => m.Movie.GenreId)
+        @Html.DropDownListFor(m => m.Movie.GenreId, new SelectList(Model.Genre, "Id", "Name"), "Select Genre", new { @class = "form-control", id="genre" })
+    </div>*@
+       <div class="form-group row">
+            <label class="col-sm-2 col-form-label">
+                Number In Stock:
+            </label>
+            <div class="col-sm-10">
+                 <input id="numberInStock" type="number" class="form-control-plaintext"/>
+            </div>
+        </div>
+    </form>
+
+@*    <form>
+  <div class="form-group row">
+    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+</form>*@
+</div>

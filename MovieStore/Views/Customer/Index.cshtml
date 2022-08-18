@@ -1,0 +1,323 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout= "_NewLayout";
+}
+@model MovieStore.ViewModels.CustomerViewModel;
+
+<div>
+    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#customerFormModal">
+        Create
+    </button>
+
+<button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#customerModal">
+        View
+</button>
+
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModal" aria-hidden="true" >
+
+ <div class="modal-dialog">
+<div id="dar" class="modal-content">
+    <div id="deer" class="modal-body">
+  <div id="customerinfo" class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <div class="card-header">Customer Details <button type="button" class="btn-close btnCustomerclose" data-bs-dismiss="modal" aria-label="Close"></button></div>
+  <div class="card-body">
+   @* <h4 class="card-title">Primary card title</h4>*@
+         <partial name="ViewCustomerPartial"/>
+
+  </div>
+    </div>
+
+</div>
+</div>
+ </div>
+</div>
+
+
+    <div class="modal fade" id="customerFormModal" tabindex="-1" aria-labelledby="customerFormModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="movieFormModal">Create New Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="">
+           <form>
+        <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Name:
+            </label>
+            <div class="col-sm-6">
+                 <input id="name" type="text" class="form-control"/>
+            </div>
+           
+        </div>
+         <div class="form-group row  mb-3">
+            <label class="col-sm-4 col-form-label">
+                Date of Birth:
+            </label>
+            <div class="col-sm-6">
+                 <input id="dob" type="date" class="form-control"/>
+            </div>
+        </div>
+      <div class="form-group row  mb-3">
+        @Html.LabelFor(m => m.MembershipTypeId, new{@class="form-label col-sm-4"})
+        <div class="col-sm-6">
+        @Html.DropDownListFor(m => m.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select MembershipType", new { @class = "form-control", id="membershipTypeId" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label>
+            @Html.CheckBoxFor(c=>c.IsSubscribedToNewsLetter, new{@class="", id="subscribedToNewsLetter"}) Subscribed to news letter?
+        </label>
+    </div>
+
+
+         <div class="m-5">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="btnn" class="btn btn-primary"data-bs-dismiss="modal">Save </button>
+      </div>
+    </form>
+      </div>
+@*      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save </button>
+      </div>*@
+    </div>
+  </div>
+</div>
+
+    <div class="m-2">
+
+    <table class="hover cell-border compact" id="customers">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>MembershipType</th>
+                <th>DOB</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody> 
+
+        </tbody>
+
+    </table>
+
+    </div>
+
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        var customer={};
+        
+        function viewfn(id){
+            //     var urlCustomerView=`Customer/ViewCustomerPartial/${id}`
+            //return location.href=urlCustomerView;
+                 $.ajax({
+                url:`Customer/ViewCustomerPartial/${id}`,
+                dataSrc:'',
+                success:function(){
+                    $('#customerModal').modal('show');
+                       console.log("Mo ti lo mo ti de layo")
+                },
+                error:function(){
+                    console.log("I no carry am come oo");
+                }
+            })
+        }
+        
+        function summaryfn(id){
+                 var urlCustomerView=`Customer/ViewCustomerPartial/${id}`
+            return location.href=urlCustomerView;
+        }
+       
+        function editfn(id){
+                 var urlCustomerView=`Customer/ViewCustomerPartial/${id}`
+            return location.href=urlCustomerView;
+        }
+
+//        function deletefn(id){
+//    Swal.fire({
+//        title: "Are you sure?",
+//        text: "You will not be able to recover this customer!",
+//        type: "warning",
+//        showCancelButton: true,
+//        confirmButtonColor: "#DD6B55",
+//        confirmButtonText: "Delete!",
+//        cancelButtonText: "Cancel",
+//        closeOnConfirm: false,
+//        closeOnCancel: false ,
+//                   toast: true,
+//                position: 'top-end',
+//                showConfirmButton: true,
+//    },
+//    function(isConfirm) {
+//        if (isConfirm) {
+//        return location.href=`Customer/DeleteCustomer/${id}`;
+//            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+//        } else {
+//            swal("Cancelled", "Your imaginary file is safe :)", "error");
+//        }
+//    }
+//);}
+
+   var dat = $(document).ready(function(){
+
+      
+//      function deletefn(id){
+//    Swal.fire({
+//        title: "Are you sure?",
+//        text: "You will not be able to recover this customer!",
+//        type: "warning",
+//        showCancelButton: true,
+//        confirmButtonColor: "#DD6B55",
+//        confirmButtonText: "Delete!",
+//        cancelButtonText: "Cancel",
+//        closeOnConfirm: false,
+//        closeOnCancel: false 
+//    },
+//    function(isConfirm) {
+//        if (isConfirm) {
+//            $.ajax({
+//                url:`Customer/DeleteCustomer/${id}`,
+//                success:function(){
+//                    customerTable.row(button.parents('tr')).remove().draw();
+//                }
+//            })
+//            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+//        } else {
+//            swal("Cancelled", "Your imaginary file is safe :)", "error");
+//        }
+//    }
+//);
+//}
+
+
+
+            var enc1 = 'TestData';    
+             var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(enc1), key,
+                { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+            var enc = encryptedlogin;
+            console.log('enc = '+enc);
+
+        var _urlSaveCustomer='Customer/Save';
+      var customerTable=  $('#customers').dataTable({
+          "deferRender":true,
+            "ajax":{
+                "url":"Customer/GetCustomer",
+                dataSrc:""
+            },
+            "columns":[
+                {"data":null, render:"name"},
+                {"data":"membershipTypeId"},
+                {"data":"birthDate"},
+                {"data":"id",
+                  "render": function(index,row,data){
+                      let id=data.id
+                      return  `<div class="btn-group">
+                          <button type="button" class="btn-sm btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                          </button>
+                          <ul class="dropdown-menu" style="width:5px; margin-right:0;">
+                            <li><button onclick="viewfn(${id})" class="dropdown-item" type="button">View</button></li>
+                            <li><button onclick="summaryfn(${id})" class="dropdown-item" type="button">Summary</button></li>
+                            <li><button onclick="editfn(${id})" class="dropdown-item" type="button">Edit</button></li>
+                            <li><button data-customer-id=${id} class="dropdown-item" id="deletebtn" type="button">Delete</button></li>
+                          </ul>
+                        </div>`
+                  }
+              }
+
+            ]
+        })
+
+        $("#customers").on('click','#deletebtn', function(e){
+            e.preventDefault();
+            var button=$(this); 
+            var id = button.attr('data-customer-id');
+         console.log("id="+id);
+            Swal.fire({
+            title: "Do you want to delete this customer?",
+            type: "error",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes!",
+            showCancelButton: true,
+    }).then((result)=>{
+        if(result.isConfirmed){
+                        $.ajax({
+                url:`Customer/DeleteCustomer/${id}`,
+                dataSrc:'',
+                success:function(){
+                    $("#customers").DataTable().ajax.reload(null,false);
+                }
+            })
+        }
+        else if(result.isDenied){
+            Swal.fire('Customer not deleted','','info')
+        }
+    })
+        })
+
+        $("#btnn").click(function(e){
+  
+               customer={
+                Name:$("#name").val().replace(/[^a-zA-Z0-9 ]/g, ''),
+                MembershipTypeId:$("#membershipTypeId").val(),
+                BirthDate:$("#dob").val().replace(/[^a-zA-Z0-9 ]/g, '/'),
+                IsSubscribedToNewsLetter:$("#subscribedToNewsLetter").val()
+            };
+           
+            var customerJson=JSON.stringify(customer);
+
+
+            var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(customerJson), key,
+                { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+
+                console.log("Encrypted login is of type:"+typeof(encryptedlogin));
+            var enc = encryptedlogin;
+            console.log("enc is of type: "+typeof(enc));
+            console.log('enc = '+enc);
+
+
+
+            SendToController(_urlSaveCustomer,customer);
+
+            ClearControls();
+        })  
+
+         function SendToController(_url,_data){
+            $.ajax({
+            url:_url,
+            type:'POST',
+            dataType:'JSON',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            data:_data,
+            success: function(){
+                toastr.success("Saved successfully")
+            $("#customers").DataTable().ajax.reload(null, false );
+            },
+            error:function(){
+                toastr.error("Something went wrong");
+            }
+        })
+     }
+
+         function ClearControls(){
+            $("#name").val(''),
+            $("#membershipTypeId").val(''),
+            $("#dob").val(''),
+            $("#subscribedToNewsLetter").val('')
+        }
+    });
+    </script>
+}
